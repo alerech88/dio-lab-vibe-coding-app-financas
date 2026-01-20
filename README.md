@@ -5,35 +5,25 @@
 
 Você é um parceiro de desenvolvimento no estilo vibe coding. Crie um MVP de um aplicativo de organização de finanças pessoais baseado em conversa (assistente financeiro conversacional), seguindo rigorosamente as instruções abaixo. Use tom educativo, acessível e acolhedor, em português do Brasil. Estruture o projeto, as rotas, a persistência local e a interface conforme este documento.
 
-========================
 1) CONTEXTO
-========================
 As pessoas têm dificuldade em manter o controle financeiro porque a maioria dos aplicativos exige inserção manual constante ou interfaces complexas. Este projeto propõe um app que funcione como um assistente financeiro conversacional, permitindo ao usuário registrar e acompanhar suas finanças em linguagem natural.
 
-========================
 2) PROBLEMA
-========================
 - Usuários desistem por acharem os apps complicados.
 - Categorização de gastos é cansativa e pouco automática.
 - Falta personalização e comunicação mais humana.
 
 Objetivo: oferecer uma experiência intuitiva, conversacional e personalizada, com insights automáticos e sem fricção.
 
-========================
 3) PÚBLICO-ALVO
-========================
 - Iniciantes na organização financeira.
 - Pessoas que querem praticidade sem planilhas ou formulários complexos.
 - Usuários que já tentaram apps/planilhas e desistiram.
 
-========================
 4) PROPOSTA DE VALOR
-========================
 Um assistente financeiro por conversa que simplifica o registro de gastos, classifica automaticamente, acompanha metas e entrega insights claros – tudo em linguagem natural, de forma humana e direta.
 
-========================
-5) ESCOPo DO MVP (Funcionalidades-Chave)
-========================
+5) ESCOPO DO MVP (Funcionalidades-Chave)
 A. Registro de gastos por chat:
    - Ex.: “Gastei 32 reais no mercado hoje”.
    - Extrair automaticamente: valor, categoria, data e descrição.
@@ -56,9 +46,7 @@ E. Relatórios personalizados:
    - Texto em linguagem natural (ex.: “Você gastou 18% a mais em alimentação.”)
    - Gráfico simples (pizza/barras).
 
-========================
 6) REQUISITOS TÉCNICOS
-========================
 - Linguagem/stack: padrão do Lovable para apps web com chat + rotas de telas.
 - Persistência local (ex.: IndexedDB/LocalStorage ou camada local equivalente no Lovable).
 - Módulos:
@@ -70,9 +58,7 @@ E. Relatórios personalizados:
 - Internacionalização mínima: pt-BR como padrão.
 - Acessibilidade: contrastes adequados, labels claros e navegação por teclado.
 
-========================
 7) MODELO DE DADOS (sugestão mínima)
-========================
 Tabelas/coleções:
 - transacoes: { id, dataISO, valor, categoria, descricao, origem="manual|chat", criadoEm, atualizadoEm }
 - metas: { id, periodo="YYYY-MM", tipo="economia|limiteCategoria", alvoValor, categoriaOpcional, criadoEm }
@@ -80,9 +66,7 @@ Tabelas/coleções:
 
 Categorias padrão (sugestão): Alimentação, Transporte, Moradia, Lazer, Saúde, Educação, Contas, Compras, Outros.
 
-========================
 8) NLP E REGRAS (MVP)
-========================
 Parsing de mensagens (exemplos):
 - “Gastei 32 reais no mercado hoje” → valor=32, categoria=Alimentação, data=hoje, descricao="mercado".
 - “Paguei 120 de Uber ontem” → valor=120, categoria=Transporte, data=ontem, descricao="Uber".
@@ -94,9 +78,7 @@ Heurísticas:
 - Categoria por palavras-chave (ex.: “mercado/supermercado/comida” → Alimentação; “Uber/ônibus/táxi/combustível” → Transporte).
 - Se ambíguo: perguntar confirmação (“Foi alimentação?”) com opções de botões.
 
-========================
 9) INTERAÇÕES DO CHAT
-========================
 - Tom: acolhedor, educativo e objetivo.
 - Após interpretar uma mensagem de gasto:
   - Mostrar card: { ícone categoria, valor, data, descrição, botão [Confirmar] [Editar] }.
@@ -107,18 +89,14 @@ Heurísticas:
   - “Mostre meus gastos por categoria”
   - “Quais dicas para eu economizar?”
 
-========================
 10) TELAS/ROTAS A IMPLEMENTAR
-========================
 - / (Splash/Boas-vindas): logo + botão [Começar].
 - /chat (Principal): histórico, input, respostas do agente, cards de confirmação.
 - /resumo: total do mês, por categoria, gráfico simples e comparação com mês anterior.
 - /metas: lista de metas, criar/editar, barra de progresso.
 - /insights: lista de dicas automáticas e alertas (ex.: “+18% em Alimentação”).
 
-========================
 11) CRITÉRIOS DE ACEITAÇÃO (MVP)
-========================
 - [Chat] Reconhece ao menos 10 variações comuns de mensagens de gasto (com e sem “R$”).
 - [Confirmação] Antes de salvar, sempre exibe card com edição possível.
 - [Persistência] Transações e metas persistem localmente e reaparecem após recarregar.
@@ -127,9 +105,7 @@ Heurísticas:
 - [Insights] Exibe ao menos 3 regras ativas (aumento de categoria, categoria dominante, aproximação de meta).
 - [Acessibilidade] Labels nos inputs, foco visível, textos legíveis.
 
-========================
 12) TAREFAS DE IMPLEMENTAÇÃO (Passo a passo)
-========================
 1) Estruturar projeto, rotas e layout base.
 2) Implementar /chat com pipeline NLP simples + card de confirmação.
 3) Persistir transações e metas localmente.
@@ -139,81 +115,62 @@ Heurísticas:
 7) Refinar UX do chat (mensagens amigáveis, confirmações claras, estados de erro).
 8) Testes manuais com dados simulados e exemplos de frases.
 
-========================
 13) MENSAGENS DE SISTEMA (TOM E ESTILO)
-========================
 - “Oi! Como posso te ajudar a organizar suas finanças hoje?”
 - “Entendi: R$ {valor} em {categoria} — {data}. Confirmar?”
 - “Legal! Registro salvo. Quer ver um resumo do seu mês?”
 - “Percebi um aumento em {categoria}. Posso sugerir algumas ideias de economia?”
 - “Sua meta de R$ {alvo} está {progresso}% completa. Ótimo trabalho!”
 
-========================
 14) DADOS INICIAIS (MOCK) – OPCIONAL
-========================
 Se necessário, pré-carregar alguns exemplos:
 - transacoes: [ {dataISO: hoje-3, valor: 45.90, categoria:"Alimentação", descricao:"supermercado"},
                 {dataISO: hoje-2, valor: 18.00, categoria:"Transporte", descricao:"Uber"},
                 {dataISO: hoje-1, valor: 120.00, categoria:"Contas", descricao:"luz"} ]
 - metas: [ {periodo: mês atual, tipo:"economia", alvoValor: 200} ]
 
-========================
 15) ENTREGÁVEL
-========================
 - App funcional com as rotas acima, layout simples e responsivo.
 - Código organizado, componentes reutilizáveis, funções bem nomeadas.
 - Sem dependências externas que exijam backend; tudo local no MVP.
 - Textos em pt-BR e mensagens educativas.
 
-========================
 16) WORKFLOW DE TELAS (Wireframe Textual)
-========================
 A) Splash (/):
------------------------------------------
+
 | [LOGO]                                 |
 | Olá! Vamos organizar suas finanças?    |
 | [Começar] → navega para /chat          |
------------------------------------------
 
 B) Chat (/chat):
--------------------------------------------------
 | Agente Financeiro (mensagens)                 |
 | Histórico de conversas                        |
 | Card de confirmação (quando houver)           |
 | > Campo de texto [Enviar]                     |
--------------------------------------------------
 Ações: registrar gasto, criar meta, pedir resumo e dicas.
 
 C) Resumo (/resumo):
--------------------------------------------------
 | Resumo do Mês                                 |
 | Total gasto: R$ XXX                           |
 | Top categorias e gráfico simples              |
 | Variação vs mês anterior                      |
 | [Ver detalhes por categoria]                  |
--------------------------------------------------
 
 D) Metas (/metas):
--------------------------------------------------
 | Minhas metas                                  |
 | Meta: Economizar R$ 200 (exemplo)             |
 | Progresso: ███████░░░░ 60%                    |
 | [Criar nova meta]                             |
--------------------------------------------------
 
 E) Insights (/insights):
--------------------------------------------------
 | Insights do Agente Financeiro                 |
 | - Você gastou 18% a mais em Alimentação.     |
 | - Você atingiu 60% da meta mensal.           |
--------------------------------------------------
 
 Fluxo geral:
 Splash → Chat → (Resumo / Metas / Insights) → retorna ao Chat como hub
 
-========================
 17) INSTRUÇÕES FINAIS
-========================
 - Priorize simplicidade, clareza e feedbacks curtos no chat.
 - Sempre que houver ambiguidade, pergunte em 1 mensagem de confirmação.
 - Otimize para o fluxo conversacional: registrar → confirmar → refletir no resumo/insights.
